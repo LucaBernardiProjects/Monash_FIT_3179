@@ -14,14 +14,14 @@
       },
       {
         "data": {
-          "url":"https://raw.githubusercontent.com/LucaBernardiProjects/Monash_FIT_3179/main/topojson_plates.topojson",
+          "url":"https://raw.githubusercontent.com/LucaBernardiProjects/Monash_FIT_3179/main/homeworkW9/topojson_plates.topojson",
           "format": {"type": "topojson", "feature":"PB2002_boundaries (1)"}
         },
         "mark": {"type": "geoshape", "fill": "white", "stroke": "grey", "fillOpacity" : 0}
       },
       {
         "data": {
-          "url": "https://raw.githubusercontent.com/LucaBernardiProjects/Monash_FIT_3179/main/tsunami_dataset.csv"
+          "url": "https://raw.githubusercontent.com/LucaBernardiProjects/Monash_FIT_3179/homeworkW9/main/tsunami_dataset.csv"
         },
         "mark": {"type": "circle", "tooltip": {"content": "data"}},
         "encoding": {
@@ -36,22 +36,6 @@
             "field": "EQ_MAGNITUDE",
             "type": "quantitative",
             "scale": {"scheme": "blues"}
-          }
-        }
-      },
-
-      {
-        "data": {
-          "url": "https://raw.githubusercontent.com/LucaBernardiProjects/Monash_FIT_3179/main/volcano.csv"
-        },
-        "mark": {"type": "circle", "tooltip": {"content": "data"}},
-        "encoding": {
-          "longitude": {"field": "Longitude", "type": "quantitative"},
-          "latitude": {"field": "Latitude", "type": "quantitative"},
-          "color": {
-            "field": "PEI",
-            "type": "quantitative",
-            "scale": {"scheme": "oranges"}
           }
         }
       }
