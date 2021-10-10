@@ -1,0 +1,156 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+      "url": "https://raw.githubusercontent.com/LucaBernardiProjects/Monash_FIT_3179/main/tsunami_dataset.csv"
+    },
+    "vconcat": [
+      {
+        "width": 800,
+        "height": 400,
+        "title": "Tsunamis since ~ 2000BC",
+        "projection": {"type": "equalEarth"},
+        "layer": [
+          {
+            "data": {
+              "url": "https://raw.githubusercontent.com/KaneSec/vega_lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+              "format": {
+                "type": "topojson",
+                "feature": "ne_110m_admin_0_countries"
+              }
+            },
+            "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white"}
+          },
+          {
+            "transform": [{"filter": {"param": "time_brush"}}],
+            "encoding": {
+              "longitude": {"field": "LONGITUDE", "type": "quantitative"},
+              "latitude": {"field": "LATITUDE", "type": "quantitative"},
+              "color": {
+                "field": "TS_INTENSITY",
+                "type": "quantitative",
+                "scale": {
+                  "type": "threshold",
+                  "domain": [0.2, 0.5, 3, 6],
+                  "range": ["#E0FBFC", "#C2DFE3", "#9DB4C0", "#5C6B73", "#253237"]
+                }
+              },
+              "tooltip": [
+                {"field": "time", "type": "temporal"},
+                {"field": "TS_INTENSITY", "type": "quantitative"},
+                {"field": "place", "type": "nominal"}
+              ]
+            },
+            "layer": [
+              {"mark": {"type": "circle", "opacity": 0.4, "size": 15}},
+              {
+                "transform": [
+                  {
+                    "window": [{"op": "rank", "as": "ranking"}],
+                    "sort": [{"field": "TS_INTENSITY", "order": "descending"}]
+                  },
+                  {"filter": "datum.ranking == 1"},
+                  {
+                    "calculate": "'The worst tsunami of the selected period: ' + datum['TS_INTENSITY']",
+                    "as": "text_annotation"
+                  }
+                ],
+                "encoding": {"text": {"field": "text_annotation"}},
+                "layer":
+                [
+                  {             
+                     "mark": {"type": "text", "align": "left", "dx": 4}
+                     },
+                  {
+                    "mark": {"type": "point", "size": 200, "shape": "M0,.5L.6,.8L.5,.1L1,-.3L.3,-.4L0,-1L-.3,-.4L-1,-.3L-.5,.1L-.6,.8L0,.5Z"}
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "width": 800,
+        "height": 60,
+        "mark": "line",
+        "title": "Use this line chart to filter out the data based on time",
+        "params": [
+          {
+            "name": "time_brush",
+            "select": {"type": "interval", "encodings": ["x"]}
+          }
+        ],
+        "encoding": {
+          "x": {
+            "field": "YEAR",
+            "timeUnit": "year",
+            "axis": {"title": "", "format": "%Y"}
+          },
+          "y": {
+            "aggregate": "count",
+            "axis": {"tickCount": 3, "grid": false},
+            "title": "Count"
+          }
+        }
+      },
+      {
+        "width": 800,
+        "height": 500,
+        "title": "worldmap of tsunamis in recorded history with tectonic plate boundary overlay",
+        "projection": {"type": "equalEarth"},
+        "layer": [
+          {
+            "data": {
+              "url": "https://raw.githubusercontent.com/KaneSec/vega_lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+              "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
+            },
+            "mark": {"type": "geoshape", "fill": "lightgrey", "stroke": "white"}
+          },
+          {
+            "data": {
+              "url":"https://raw.githubusercontent.com/LucaBernardiProjects/Monash_FIT_3179/main/topojson_plates.topojson",
+              "format": {"type": "topojson", "feature":"PB2002_boundaries (1)"}
+            },
+            "mark": {"type": "geoshape", "fill": "white", "stroke": "grey", "fillOpacity" : 0}
+          },
+          {
+            "data": {
+              "url": "https://raw.githubusercontent.com/LucaBernardiProjects/Monash_FIT_3179/main/tsunami_dataset.csv"
+            },
+            "mark": {"type": "circle", "tooltip": {"content": "data"}},
+            "encoding": {
+              "longitude": {"field": "LONGITUDE", "type": "quantitative"},
+              "latitude": {"field": "LATITUDE", "type": "quantitative"},
+              "size": {
+                "field": "TS_INTENSITY",
+                "type": "quantitative",
+                "scale": {"domain": [0, 10]}
+              },
+              "color": {
+                "field": "EQ_MAGNITUDE",
+                "type": "quantitative",
+                "scale": {"scheme": "blues"}
+              }
+            }
+          },
+    
+          {
+            "data": {
+              "url": "https://raw.githubusercontent.com/LucaBernardiProjects/Monash_FIT_3179/main/volcano.csv"
+            },
+            "mark": {"type": "circle", "tooltip": {"content": "data"}},
+            "encoding": {
+              "longitude": {"field": "Longitude", "type": "quantitative"},
+              "latitude": {"field": "Latitude", "type": "quantitative"},
+              "color": {
+                "field": "PEI",
+                "type": "quantitative",
+                "scale": {"scheme": "oranges"}
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "config": {"title": {"font": "sans-serif", "fontSize": 14}}
+  }

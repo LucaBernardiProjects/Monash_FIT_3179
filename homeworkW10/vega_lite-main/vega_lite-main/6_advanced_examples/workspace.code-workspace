@@ -1,0 +1,13 @@
+{
+    "folders": [
+        {
+            "path": ".."
+        },
+        {
+            "path": "../../covid"
+        }
+    ],
+    "settings": {
+        "liveServer.settings.multiRootWorkspaceName": "vega_lite"
+    }
+}
